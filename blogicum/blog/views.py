@@ -1,4 +1,5 @@
 from typing import List, Dict
+
 from django.shortcuts import render
 from django.http import Http404
 
@@ -46,8 +47,7 @@ posts: List[Dict] = [
     },
 ]
 
-# maybe? post_dict = {post[id]: post for post in posts}
-post_dict = {key: post for key, post in enumerate(posts)}
+post_dict = {post['id']: post for post in posts}
 
 
 def index(request):
