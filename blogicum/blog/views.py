@@ -1,6 +1,8 @@
 from django.shortcuts import render
+from django.http import Http404
+from typing import List, Dict
 
-posts = [
+posts: List[Dict] = [
     {
         'id': 0,
         'location': 'Остров отчаянья',
@@ -44,15 +46,20 @@ posts = [
 ]
 
 
+post_dict = {key: val for (key, val) in zip(list(range(len(posts))), posts)}
+
+
 def index(request):
     template = 'blog/index.html'
-    context = {'posts': posts}
+    context = {'posts': post_dict}
     return render(request, template, context)
 
 
-def post_detail(request, id):
+def post_detail(request, post_id):
     template = 'blog/detail.html'
-    context = {'post': posts[id]}
+    if post_id not in post_dict:
+        raise Http404
+    context = {'post': post_dict[post_id]}
     return render(request, template, context)
 
 
